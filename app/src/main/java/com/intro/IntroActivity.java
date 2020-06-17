@@ -1,4 +1,4 @@
-package com.example.intro;
+package com.intro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.todoa3.MainActivity;
+import com.presentation.main.MainActivity;
 import com.example.todoa3.R;
+import com.presentation.main.Pref;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 public class IntroActivity extends AppCompatActivity {
     ViewPager pager;
@@ -25,9 +27,11 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+        SpringDotsIndicator indicator = findViewById(R.id.spring_dots_indicator);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pager = findViewById(R.id.viewpager);
         pager.setAdapter(viewPagerAdapter);
+        indicator.setViewPager(pager);
         next = findViewById(R.id.next_btn);
         skip = findViewById(R.id.skip_btn);
         nextClick();
@@ -54,11 +58,11 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (pager.getCurrentItem() == 2) {
-                    Log.d("pop","if uslovie");
                     skip.setText("Start");
                     skip.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Pref.getInstance(getApplicationContext()).saveShow();
                             startActivity(new Intent(IntroActivity.this, MainActivity.class));
                             finish();
                         }
