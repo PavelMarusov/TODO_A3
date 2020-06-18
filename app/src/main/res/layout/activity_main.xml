@@ -1,18 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#272424"
+    android:orientation="vertical"
+    android:padding="8dp"
     tools:context="com.presentation.main.MainActivity">
+// TODO: Изменить размер всех вьюшек чтобы были читабельны доработать прогрес бар
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="344dp"
+        android:layout_height="280dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/bg_layout"
+        android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="88dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_text"
+            android:gravity="center"
+            android:text="Category"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:textColor="#ffffff"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/quest"
+            android:layout_width="312dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="48dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Собери друзей на природе"
+            android:textColor="#191818"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="48dp"
+            android:layout_height="16dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Price"
+            android:textColor="#191818"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/free"
+            android:layout_width="48dp"
+            android:layout_height="16dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="free"
+            android:textColor="#191818"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/price"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <Button
+            android:id="@+id/person_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/bg_view"
+            android:drawableRight="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/free" />
+
+        <Button
+            android:id="@+id/group_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/bg_view"
+            android:drawableRight="@drawable/ic_group_blac"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/person_btn" />
+
+        <Button
+            android:id="@+id/group_plus_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/bg_view"
+            android:drawableRight="@drawable/ic_group"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/group_btn" />
+
+        <TextView
+            android:id="@+id/text_participant"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Participant"
+            android:textColor="#191818"
+            android:textSize="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+       <ProgressBar
+           style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="16dp"
+           android:layout_marginBottom="24dp"
+           android:indeterminate="true"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintRight_toRightOf="parent" />
+
+       <TextView
+           android:layout_width="72dp"
+           android:layout_height="wrap_content"
+           android:text="Accessibility"
+           android:textSize="4dp"
+           android:textColor="#191818"
+           android:gravity="center"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintLeft_toRightOf="@id/text_participant"
+           app:layout_constraintRight_toRightOf="parent"
+           android:layout_marginBottom="5dp"
+           android:layout_marginLeft="45dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
