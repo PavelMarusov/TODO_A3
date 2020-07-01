@@ -25,9 +25,12 @@ private  String type;
             .build();
     BoredApi service = retrofit.create(BoredApi.class);
 
-   public void getAction(String type,BoredActionCallback callback) {
-        Call<BoredAction> call = service.getAction(type,0.1f,0.5f,0f,3f);
+   public void getAction(String type,Float minPrice, Float maxPrice,BoredActionCallback callback) {
+        Call<BoredAction> call = service.getAction(type,minPrice,maxPrice,0f,3f);
+       Log.d("pop","getAction");
        Log.d("pop","Type :"+type);
+       Log.d("pop","minPrice :" +minPrice);
+       Log.d("pop","maxPrice :" +maxPrice);
 
        call.enqueue(new Callback<BoredAction>() {
             @Override
