@@ -183,10 +183,10 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
-        app:count="2"
+        app:count="10"
         app:movable="true"
         app:start="0"
-        app:end="2"
+        app:end="10"
         />
     <TextView
         android:id="@+id/acces_text"

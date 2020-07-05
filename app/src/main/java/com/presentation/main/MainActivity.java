@@ -27,13 +27,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Spinner spinner;
     private String type;
     private TextView quest;
+    private TextView price;
     private Button next;
     private BoredAction boredAction;
     private ImageView imageView;
     private int participants;
     private float startPrice;
     private float endPrice;
+    private float startAcces;
+    private float endAccess;
     private SimpleRangeView seekbar;
+    private SimpleRangeView seekba_access;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +51,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 //        boredAction = new BoredAction(null,type,null,null,null,null,null);
         quest = findViewById(R.id.quest);
+        price = findViewById(R.id.price);
         imageView = findViewById(R.id.acces_imageView);
         next = findViewById(R.id.next_btn);
         spinner = findViewById(R.id.spiner);
         seekbar = findViewById(R.id.price_sb);
+        seekba_access = findViewById(R.id.accesibility_sb);
         inputPrise(seekbar);
+        inputAccessibility(seekba_access);
         spinner.setOnItemSelectedListener(this);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void onSuccess(BoredAction boredAction) {
                         quest.setText(boredAction.getActivity());
+                        price.setText(boredAction.getPrice());
                         Log.d("pop", "kolichestvo " + boredAction.getParticipants());
                         Log.d("pop","cena :"+boredAction.getPrice());
                         participants = boredAction.getParticipants();
@@ -117,12 +125,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
                 startPrice = i;
+                startPrice = 0.1f;
                 Log.d("pop","Start price ;" +startPrice);
             }
 
             @Override
             public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
                 endPrice = i;
+                endPrice = 1f;
+                Log.d("pop","End price ;" +endPrice);
+            }
+        });
+    }
+    public void inputAccessibility(SimpleRangeView view) {
+        view.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
+            @Override
+            public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+                startAcces = i;
+                startAcces = 0.1f;
+                Log.d("pop","Start price ;" +startPrice);
+            }
+
+            @Override
+            public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+                endAccess = i;
+                endAccess = 1f;
                 Log.d("pop","End price ;" +endPrice);
             }
         });
