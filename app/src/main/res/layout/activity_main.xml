@@ -100,13 +100,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <androidx.core.widget.ContentLoadingProgressBar
+        <ProgressBar
+            android:id="@+id/progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="30dp"
-            android:indeterminate="true"
+            android:indeterminate="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -185,7 +186,7 @@
         android:layout_marginRight="10dp"
         app:count="10"
         app:movable="true"
-        app:start="0"
+        app:start="1"
         app:end="10"
         />
     <TextView

@@ -3,12 +3,14 @@ package com.presentation.main;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.App;
 import com.data.BoredApiClient;
 import com.example.todoa3.R;
+import com.google.android.material.progressindicator.ProgressIndicator;
 import com.intro.IntroActivity;
 import com.model.BoredAction;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private int participants;
     private float startPrice;
     private float endPrice;
+    private ProgressBar progressBar;
     private float startAcces;
     private float endAccess;
     private SimpleRangeView seekbar;
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         next = findViewById(R.id.next_btn);
         spinner = findViewById(R.id.spiner);
         seekbar = findViewById(R.id.price_sb);
+        progressBar = findViewById(R.id.progress_bar);
         seekba_access = findViewById(R.id.accesibility_sb);
         inputPrise(seekbar);
         inputAccessibility(seekba_access);
@@ -63,14 +68,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                App.boredApiClient.getAction(type,startPrice,endPrice, new BoredApiClient.BoredActionCallback() {
+                App.boredApiClient.getAction(type, startPrice, endPrice, new BoredApiClient.BoredActionCallback() {
 
                     @Override
                     public void onSuccess(BoredAction boredAction) {
+                        Log.d("pop", "Accessibility :" + startAcces);
                         quest.setText(boredAction.getActivity());
                         price.setText(boredAction.getPrice());
+                        progressBar.setProgress((int) (boredAction.getAccessibility()*100));
                         Log.d("pop", "kolichestvo " + boredAction.getParticipants());
-                        Log.d("pop","cena :"+boredAction.getPrice());
+                        Log.d("pop", "cena :" + boredAction.getPrice());
                         participants = boredAction.getParticipants();
                         setImage(participants);
                         Log.d("pop", boredAction.toString());
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     }
+
 
     public void setImage(int pos) {
 
@@ -121,36 +129,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void inputPrise(SimpleRangeView view) {
+        Log.d("pop","inputPrise");
         view.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
             @Override
             public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                startPrice = i;
-                startPrice = 0.1f;
-                Log.d("pop","Start price ;" +startPrice);
+               startPrice=(float) (i/10);
+
+                Log.d("pop", "Start price ;" + startPrice);
+
+
             }
 
             @Override
             public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                endPrice = i;
-                endPrice = 1f;
-                Log.d("pop","End price ;" +endPrice);
+                endPrice = (float) (i/10);
+                Log.d("pop", "endPrice ;" + endPrice);
             }
         });
     }
+
     public void inputAccessibility(SimpleRangeView view) {
         view.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
             @Override
             public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
                 startAcces = i;
                 startAcces = 0.1f;
-                Log.d("pop","Start price ;" +startPrice);
+                Log.d("pop", "Start price ;" + startPrice);
             }
 
             @Override
             public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
                 endAccess = i;
                 endAccess = 1f;
-                Log.d("pop","End price ;" +endPrice);
+                Log.d("pop", "End price ;" + endPrice);
             }
         });
     }
