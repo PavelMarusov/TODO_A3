@@ -15,7 +15,7 @@ import android.widget.Button;
 
 import com.presentation.main.MainActivity;
 import com.example.todoa3.R;
-import com.presentation.main.Pref;
+import com.data.Pref;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 public class IntroActivity extends AppCompatActivity {

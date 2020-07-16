@@ -1,23 +1,41 @@
 package com.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
-
+@Entity(tableName = "bored_action")
 public class BoredAction {
     @SerializedName("activity")
+    @ColumnInfo (name = "activity")
     private String activity;
+
     @SerializedName("type")
+    @ColumnInfo (name = "type")
     private String type;
+
     @SerializedName("accessibility")
+    @ColumnInfo (name = "accessibility")
     private Float accessibility;
+
     @SerializedName("participants")
+    @ColumnInfo (name = "participants")
     private Integer participants;
+
     @SerializedName("price")
+    @ColumnInfo (name = "price")
     private String price;
+
     @SerializedName("link")
+    @ColumnInfo (name = "link")
     private String link;
+
     @SerializedName("key")
+    @ColumnInfo (name = "ukey")
+    @PrimaryKey
+    @NonNull
     private String key;
 
     public BoredAction(String activity, String type, Float accessibility, Integer participants, String price, String link, String key) {

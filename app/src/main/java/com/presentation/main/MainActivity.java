@@ -1,11 +1,16 @@
 package com.presentation.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,31 +22,22 @@ import android.widget.Toast;
 
 import com.App;
 import com.data.BoredApiClient;
+import com.data.Pref;
 import com.example.todoa3.R;
-import com.google.android.material.progressindicator.ProgressIndicator;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.intro.IntroActivity;
 import com.model.BoredAction;
+import com.presentation.favorites.FavoritesFragment;
+import com.presentation.settings.SettingsFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import me.bendik.simplerangeview.SimpleRangeView;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private Spinner spinner;
-    private String type;
-    private TextView quest;
-    private TextView price;
-    private Button next;
-    private BoredAction boredAction;
-    private ImageView imageView;
-    private int participants;
-    private float startPrice;
-    private float endPrice;
-    private ProgressBar progressBar;
-    private float startAcces;
-    private float endAccess;
-    private SimpleRangeView seekbar;
-    private SimpleRangeView seekba_access;
+public class MainActivity extends AppCompatActivity {
+
+    private ViewPager mViewPager;
+    private BottomNavigationView mBottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,116 +49,63 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return;
         }
         setContentView(R.layout.activity_main);
-//        boredAction = new BoredAction(null,type,null,null,null,null,null);
-        quest = findViewById(R.id.quest);
-        price = findViewById(R.id.price);
-        imageView = findViewById(R.id.acces_imageView);
-        next = findViewById(R.id.next_btn);
-        spinner = findViewById(R.id.spiner);
-        seekbar = findViewById(R.id.price_sb);
-        progressBar = findViewById(R.id.progress_bar);
-        seekba_access = findViewById(R.id.accesibility_sb);
-        inputPrise(seekbar);
-        inputAccessibility(seekba_access);
-        spinner.setOnItemSelectedListener(this);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                App.boredApiClient.getAction(type, startPrice, endPrice, new BoredApiClient.BoredActionCallback() {
-
+        mViewPager = findViewById(R.id.main_view_pager);
+        mBottomNavigationView = findViewById(R.id.main_botton_nav);
+        mViewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOffscreenPageLimit(2);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public void onSuccess(BoredAction boredAction) {
-                        Log.d("pop", "Accessibility :" + startAcces);
-                        quest.setText(boredAction.getActivity());
-                        price.setText(boredAction.getPrice());
-                        progressBar.setProgress((int) (boredAction.getAccessibility()*100));
-                        Log.d("pop", "kolichestvo " + boredAction.getParticipants());
-                        Log.d("pop", "cena :" + boredAction.getPrice());
-                        participants = boredAction.getParticipants();
-                        setImage(participants);
-                        Log.d("pop", boredAction.toString());
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.nav_main:
+                                mViewPager.setCurrentItem(0);
+                                break;
+                                case R.id.nav_favorites:
+                                    mViewPager.setCurrentItem(1);
+                                break;
+                                case R.id.nav_settings:
+                                    mViewPager.setCurrentItem(2);
+                                break;
+                        }
+                        return false;
                     }
-
-                    @Override
-                    public void onFailure(Exception ex) {
-                        Toast.makeText(MainActivity.this, "Error" + ex.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("pop", ex.getMessage());
-                    }
-
-                });
-            }
-        });
+                }
+        );
 
 
     }
 
 
-    public void setImage(int pos) {
+    public static class MainPagerAdapter extends FragmentPagerAdapter {
 
-        if (pos > 3) {
-            imageView.setImageResource(R.drawable.ic_group);
-        } else {
-            switch (pos) {
+
+        public MainPagerAdapter(@NonNull FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = new Fragment();
+            switch (position) {
+                case 0:
+                    fragment = MainFragment.newInstance();
+                    break;
                 case 1:
-                    imageView.setImageResource(R.drawable.ic_user_icon);
+                    fragment = FavoritesFragment.newInstance();
                     break;
                 case 2:
-                    imageView.setImageResource(R.drawable.ic_user_icon_two);
+                    fragment = SettingsFragment.newInstance();
                     break;
-                case 3:
-                    imageView.setImageResource(R.drawable.ic_user_icon_three);
-                    break;
-
             }
+return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
         }
     }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        type = parent.getSelectedItem().toString();
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    public void inputPrise(SimpleRangeView view) {
-        Log.d("pop","inputPrise");
-        view.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
-            @Override
-            public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-               startPrice=(float) (i/10);
-
-                Log.d("pop", "Start price ;" + startPrice);
-
-
-            }
-
-            @Override
-            public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                endPrice = (float) (i/10);
-                Log.d("pop", "endPrice ;" + endPrice);
-            }
-        });
-    }
-
-    public void inputAccessibility(SimpleRangeView view) {
-        view.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
-            @Override
-            public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                startAcces = i;
-                startAcces = 0.1f;
-                Log.d("pop", "Start price ;" + startPrice);
-            }
-
-            @Override
-            public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                endAccess = i;
-                endAccess = 1f;
-                Log.d("pop", "End price ;" + endPrice);
-            }
-        });
-    }
 }
+
